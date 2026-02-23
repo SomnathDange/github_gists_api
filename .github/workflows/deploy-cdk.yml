@@ -1,0 +1,38 @@
+name: CDK Synth
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  synth:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install CDK
+        run: npm install -g aws-cdk
+      
+      - name: Install CDK dependencies
+        working-directory: ./cdk
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: CDK Synth
+        working-directory: ./cdk
+        run: cdk synth -c env=dev
