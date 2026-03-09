@@ -56,3 +56,22 @@ jobs:
       - name: CDK Deploy
         working-directory: ./cdk
         run: cdk deploy --all --require-approval=never -c env=dev
+
+
+        /*{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::YOUR_ACCOUNT_ID:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:sub": "repo:SomnathDange/github_gists_api:ref:refs/heads/main"
+        }
+      }
+    }
+  ]
+}*/
